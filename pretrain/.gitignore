@@ -1,0 +1,7 @@
+__pycache__/
+wandb/
+config/
+logs/
+models/
+*.csv
+results/

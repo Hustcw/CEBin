@@ -1,0 +1,24 @@
+accelerate launch \
+    --config_file local_config.yaml finetune.py \
+    --data_dir $DATADIR \
+    --output_dir $AMLT_OUTPUT_DIR \
+    --dataset Cisco \
+    --pretrain_path $DATADIR/cebin \
+    --project_name Cebin-MoCo-Cisco \
+    --job_name local-A100-80G-Cisco \
+    --report_to wandb \
+    --gradient_accumulation_steps 4 \
+    --max_len 1024 \
+    --train_batchsize 16 \
+    --eval_batchsize 64 \
+    --epochs 10 \
+    --log_steps 10 \
+    --moco_m 0.99 \
+    --moco_t 0.05 \
+    --moco_dim 128 \
+    --learning_rate 1e-4 \
+    --moco_k 8192 \
+    --pool_ratio 3 \
+    --freeze_layers 22 \
+    --ckpt_steps 500 \
+    --eval_steps 500 

@@ -1,0 +1,22 @@
+#!/bin/bash -e
+accelerate launch \
+    --config_file local_config.yaml finetune_pair.py \
+    --data_dir $DATADIR \
+    --output_dir $AMLT_OUTPUT_DIR \
+    --dataset Cisco \
+    --pretrain_path $DATADIR/cebin \
+    --project_name Cebin-Pair-Cisco \
+    --job_name local-A100-80G-Cisco \
+    --report_to wandb \
+    --gradient_accumulation_steps 1 \
+    --max_len 1024 \
+    --train_batchsize 4 \
+    --eval_batchsize 50 \
+    --epochs 10 \
+    --workers 16 \
+    --margin 0.3 \
+    --log_steps 10 \
+    --learning_rate 1e-4 \
+    --freeze_layers 22 \
+    --ckpt_steps 500 \
+    --eval_steps 500 
