@@ -639,7 +639,7 @@ if __name__ == "__main__":
 
     print("finish loading tokenizer")
 
-    # dataset = load_dataset(accelerator, ["Cisco", "BinaryCorp", "Trex"], tokenizer, use_cache=False, save_cache=True, cache_dir="/home/vul337/cebin-data/cache/Cisco_BinaryCorp_Trex")
+    # dataset = load_dataset(accelerator, ["Cisco", "BinaryCorp", "Trex"], tokenizer, use_cache=False, save_cache=True, cache_dir="/path/to/cebin-data/cache/Cisco_BinaryCorp_Trex")
     dataset = load_dataset(
         args.data_dir,
         accelerator,

@@ -141,5 +141,5 @@ if __name__ == "__main__":
         tokenizer,
         use_cache=False,
         save_cache=True,
-        cache_dir="/home/vul337/cebin-data/cache/Cisco_BinaryCorp_Trex",
+        cache_dir="/path/to/cebin-data/cache/Cisco_BinaryCorp_Trex",
     )

@@ -22,13 +22,12 @@ def fileter_dataframe(df):
     ]
     return df
 
-# 读取 train.csv 和 test.csv
-test_csv = "/mnt/data_fast/vul337/Cebin/Cebin/data/processed/Cisco/test.tsv"
-train_csv = "/mnt/data_fast/vul337/Cebin/Cebin/data/processed/Cisco/train.tsv"
+test_csv = "/path/to/Cebin/Cebin/data/processed/Cisco/test.tsv"
+train_csv = "/path/to/Cebin/Cebin/data/processed/Cisco/train.tsv"
 
 train_df = pd.read_csv(train_csv, sep="\t")
 test_df = pd.read_csv(test_csv, sep="\t")
-# 过滤掉不符合要求的样本
+
 merge_df = pd.concat([train_df, test_df], ignore_index=True)
 merge_df = fileter_dataframe(merge_df)
 merge_df = merge_df.groupby(['package', 'func_name']).filter(lambda x: len(x) > 1)
