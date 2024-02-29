@@ -42,54 +42,15 @@ def load_dataset(accelerator, dataset_name, tokenizor, use_cache=True, cache_dir
 
     print("finish loading datasets")
 
-    # tokenize
-    # def tokenize_fn(example):
-    #     keys = list(example.keys())[2:]
-    #     keys = [k for k in example if k not in ["package", "func_name"] and example[k]]
-    #     new_feature = defaultdict(list)
-    #     new_feature["available_keys"] = keys
-    #     for k in keys:
-    #         func = json.loads(example[k])
-    #         rslt = tokenizor.encode_function(func)
-    #         for k in rslt:
-    #             new_feature[k].append(rslt[k])
-
-    #     return new_feature
-    
-    # to_remove_features = list(dataset["train"].features)[2:]
-                
-    # with accelerator.main_process_first():
-    #     # tokenized_datasets = dataset.map(
-    #     tokenized_datasets = dataset.map(
-    #         tokenize_fn,
-    #         batched=False,
-    #         num_proc=48,
-    #         desc=f"tokenize func str",
-    #         remove_columns=to_remove_features,
-    #         drop_last_batch=True
-    #     )
     results_train = []
     results_test = []
     with Pool(processes=96) as pool: # Change the number of processes as per your requirements
         results_test = pool.map(tokenize_fn, dataset["test"])
         results_train = pool.map(tokenize_fn, dataset["train"])
-        # for result in tqdm(pool.imap_unordered(tokenize_fn, dataset["test"]), total=len(dataset["test"])):
-        #     results_test.append(result)
 
-        # for result in tqdm(pool.imap_unordered(tokenize_fn, dataset["train"]), total=len(dataset["train"])):
-        #     results_train.append(result)
-
-    
     train_dataset = Dataset.from_list(results_train)
     test_dataset = Dataset.from_list(results_test)
     binarycorp = DatasetDict({"train": train_dataset, "test": test_dataset})
-
-    # rename_mapping = {}
-    # for ftr in list(dataset.features):
-    #     if ftr.endswith("tokenized"):
-    #         rename_mapping[ftr] = "_".join(ftr.split('_')[:-1])
-    
-    # tokenized_datasets.rename_columns(rename_mapping)
 
     if not use_cache and cache_dir is not None:
         binarycorp.save_to_disk(f"{cache_dir}/{dataset_name}")
@@ -142,40 +103,4 @@ if __name__ == "__main__":
         tokenizer.max_length = max_len
         tokenizer.max_len = max_len
         print("finish loading tokenizer")
-        # load_dataset(accelerator, ["Trex"], tokenizor)
         dataset = load_dataset(accelerator, "BinaryCorp", tokenizer, use_cache=False, cache_dir="../cache/BinaryCorp")
-# # %%
-# def find_invalid_outputs(result):
-#     invalid_indices = []
-#     for i, d in enumerate(result):
-#         for k, v in d.items():
-#             if v and len(v) != 0:
-#                 pass
-#             else:
-#                 invalid_indices.append(i)
-#                 break
-#     return invalid_indices
-
-# # %%
-# invalid_indices = find_invalid_outputs(results)
-# print(invalid_indices)
-
-# # %%
-# for i, d in enumerate(results):
-#     for k, v in d.items():
-#         print(k, v)
-#         print(k, "input_ids" in v)
-#         print(type(v))
-#         break
-#     break
-# # %%
-# results[0]
-# # %%
-# t = Dataset.from_list(results)
-# # %%
-# print(t[0])
-# # %%
-# print(t[0].keys())
-# # %%
-# t.features
-# # %%
