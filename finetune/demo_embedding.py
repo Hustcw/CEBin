@@ -292,8 +292,8 @@ DATASET_FEATURES = {
     ],
 }
 
-dataset = load_from_disk("../data/BinaryCorp")
-model = torch.load("../data/CEBin-Cisco.bin")
+dataset = load_from_disk("../dataset/BinaryCorp")
+model = torch.load("../models/CEBin-Embedding-Cisco.bin")
 tokenizer = CebinTokenizer.from_pretrained("../data/cebin-tokenizer")
 tokenizer.max_length = 1024
 

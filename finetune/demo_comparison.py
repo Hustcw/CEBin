@@ -10,8 +10,8 @@ from transformers import BatchEncoding
 
 FEATURE_PATTERN = re.compile(r"^(x86|x64|arm|mips)")
 
-dataset = load_from_disk("../data/BinaryCorp")
-model = torch.load("../models/CEBin-Pair-Cisco.bin")
+dataset = load_from_disk("../dataset/BinaryCorp")
+model = torch.load("../models/CEBin-Comparison-Cisco.bin")
 tokenizer = CebinTokenizer.from_pretrained("../data/cebin-tokenizer")
 tokenizer.max_length = 1024
 
