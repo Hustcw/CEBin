@@ -1,7 +1,7 @@
 import re
 import random
 import torch
-from models import MoCo
+from models import RetrivalEncoder
 from torch.utils.data import DataLoader
 from tokenizer import CebinTokenizer
 from datasets import load_from_disk

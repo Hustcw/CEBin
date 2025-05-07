@@ -244,6 +244,26 @@ class MoCo(nn.Module):
         self._dequeue_and_enqueue(k)
 
         return logits, labels
+    
+class RetrivalEncoder(nn.Module):
+    def __init__(self, encoder_q, encoder_k):
+        super(RetrivalEncoder, self).__init__()
+        self.encoder_q = encoder_q
+        self.encoder_k = encoder_k
+
+    def forward(self, func_q, func_k):
+        """
+        Input:
+            func_q: a batch of query functions
+            func_k: a batch of key funtions
+        Output:
+            logits
+        """
+
+        q = self.encoder_q(**func_q)  # queries: NxC
+        k = self.encoder_k(**func_k)  # keys: NxC
+        logits = torch.einsum("nc,nc->n", [q, k]).unsqueeze(-1)
+        return logits
 
 class CEBinPairEncoder(nn.Module):
     def __init__(self, pretrain_path="../models/cebin"):
